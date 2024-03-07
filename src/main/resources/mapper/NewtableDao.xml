@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.NewtableDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Newtable" id="NewtableMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="NewtableMap">
+        select
+          id, name
+        from newtable
+        where  id= #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="NewtableMap">
+        select
+          id, name
+        from newtable
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from newtable
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into newtable(id, name)
+        values (#{id}, #{name})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into newtable(id, name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.id}, #{entity.name})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into newtable(id, name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.name})
+        </foreach>
+        on duplicate key update
+        id = values(id),
+        name = values(name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update newtable
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where  id= #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from newtable where  id= #{id}
+    </delete>
+
+    <update id="dbtest">
+        CREATE TABLE IF NOT EXISTS project_info (
+                                                    id SERIAL PRIMARY KEY,
+                                                    projectType VARCHAR(20) NOT NULL,
+            projecttokenname VARCHAR(20) NOT NULL,
+            projectName VARCHAR(100) NOT NULL,
+            projectDescription TEXT,
+            projectLogo TEXT,
+            projectHead TEXT,
+            projectNft TEXT,
+            Website VARCHAR(50),
+            Discord VARCHAR(50),
+            Twitter VARCHAR(50),
+            Gitbook VARCHAR(50),
+            Telegram VARCHAR(50),
+            GitHub VARCHAR(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            status int
+            );
+    </update>
+    <update id="orderlist">
+        CREATE TABLE IF NOT EXISTS orderlist1 (
+                                                    id SERIAL PRIMARY KEY,
+                                                    "orderId" varchar(256) NOT NULL,
+            status varchar(32) NOT NULL,
+            "projectName" varchar(128) NOT NULL,
+            "type" varchar(16) NOT NULL,
+            "tokenName" varchar(32) NOT NULL,
+            stage varchar(32) NOT NULL,
+            "fromAddr" varchar(64) NOT NULL,
+            "fundAddr" varchar(64) NOT NULL,
+            "receivedAddr" varchar(64) NOT NULL,
+            amount int8 NOT NULL,
+            "projectQuota" float4 NOT NULL,
+            "platformQuota" float4 NOT NULL,
+            "createTime" date NOT NULL,
+            "updateTime" date NOT NULL,
+            "transmitAddr" varchar NULL,
+            pid int4 NULL,
+            "buyAmount" int4 NULL,
+            );
+    </update>
+
+    <!-- 创建表的 SQL 语句 -->
+    <update id="createProjectDetails">
+        CREATE TABLE IF NOT EXISTS project_details (
+                                                      id SERIAL PRIMARY KEY,
+                                                       projectRelated VARCHAR(600),
+            projectFeatures VARCHAR(255),
+            tokenomics TEXT,
+            pid INT
+            );
+    </update>
+    <update id="createWhtielist">
+        CREATE TABLE IF NOT EXISTS whtielist (
+                                                 id SERIAL PRIMARY KEY,
+                                                 projectNetwork VARCHAR(20) NOT NULL,
+            projectCurrency VARCHAR(20) NOT NULL,
+            startTime VARCHAR(100) ,
+            entTime VARCHAR(100) ,
+            hposa VARCHAR(50) ,
+            popp VARCHAR(50) ,
+            tokenNumber int ,
+            targetNumber int,
+            mposa VARCHAR(50) ,
+            projectMoneyAddress VARCHAR(100) ,
+            pid int,
+            type int
+            );
+    </update>
+    <update id="whtielistCsv">
+        CREATE TABLE IF NOT EXISTS whtielist_csv (
+                                                     id SERIAL PRIMARY KEY,
+                                                     add VARCHAR(200) NOT NULL,
+            status int NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            pid int NOT NULL
+            );
+    </update>
+
+
+</mapper>
+

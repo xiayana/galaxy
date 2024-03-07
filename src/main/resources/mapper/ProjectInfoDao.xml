@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.ProjectInfoDao">
+
+    <resultMap type="com.lab8.galaxy.entity.ProjectInfo" id="ProjectInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projecttype" column="projecttype" jdbcType="VARCHAR"/>
+        <result property="projectname" column="projectname" jdbcType="VARCHAR"/>
+        <result property="projecttokenname" column="projecttokenname" jdbcType="VARCHAR"/>
+        <result property="projectdescription" column="projectdescription" jdbcType="VARCHAR"/>
+        <result property="projectlogo" column="projectlogo" jdbcType="VARCHAR"/>
+        <result property="projecthead" column="projecthead" jdbcType="VARCHAR"/>
+        <result property="projectnft" column="projectnft" jdbcType="VARCHAR"/>
+
+        <result property="logoSuffix" column="logoSuffix" jdbcType="VARCHAR"/>
+        <result property="headSuffix" column="headSuffix" jdbcType="VARCHAR"/>
+        <result property="nftSuffix" column="nftSuffix" jdbcType="VARCHAR"/>
+        <result property="website" column="website" jdbcType="VARCHAR"/>
+        <result property="discord" column="discord" jdbcType="VARCHAR"/>
+        <result property="twitter" column="twitter" jdbcType="VARCHAR"/>
+        <result property="gitbook" column="gitbook" jdbcType="VARCHAR"/>
+        <result property="telegram" column="telegram" jdbcType="VARCHAR"/>
+        <result property="github" column="github" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updateAt" column="update_at" jdbcType="TIMESTAMP"/>
+        <result property="wid" column="wid" jdbcType="INTEGER"/>
+        <result property="pubid" column="pubid" jdbcType="INTEGER"/>
+        <result property="pdid" column="pdid" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="size" column="size" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProjectInfoMap">
+        select
+          id, projecttype, projectname,projecttokenname, projectdescription, projectlogo, projecthead, projectnft, website, discord, twitter, gitbook, telegram, github, created_at,update_at,status, size,"nftSuffix","logoSuffix","headSuffix"
+        from project_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ProjectInfoMap">
+        select
+          id, projecttype, projectname,projecttokenname, projectdescription, projectlogo, projecthead, projectnft, website, discord, twitter, gitbook, telegram, github, created_at,update_at,status,size
+        from project_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projecttype != null and projecttype != ''">
+                and projecttype = #{projecttype}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectname = #{projectname}
+            </if>
+            <if test="projecttokenname != null and projecttokenname != ''">
+                and projecttokenname = #{projecttokenname}
+            </if>
+            <if test="projectdescription != null and projectdescription != ''">
+                and projectdescription = #{projectdescription}
+            </if>
+            <if test="projectlogo != null and projectlogo != ''">
+                and projectlogo = #{projectlogo}
+            </if>
+            <if test="projecthead != null and projecthead != ''">
+                and projecthead = #{projecthead}
+            </if>
+            <if test="projectnft != null and projectnft != ''">
+                and projectnft = #{projectnft}
+            </if>
+            <if test="website != null and website != ''">
+                and website = #{website}
+            </if>
+            <if test="discord != null and discord != ''">
+                and discord = #{discord}
+            </if>
+            <if test="twitter != null and twitter != ''">
+                and twitter = #{twitter}
+            </if>
+            <if test="gitbook != null and gitbook != ''">
+                and gitbook = #{gitbook}
+            </if>
+            <if test="telegram != null and telegram != ''">
+                and telegram = #{telegram}
+            </if>
+            <if test="github != null and github != ''">
+                and github = #{github}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updateAt != null">
+                and update_at = #{updateAt}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ProjectInfoMap">
+        select
+        id, projecttype, projectname,projecttokenname, projectdescription, projectlogo, projecthead, projectnft, website, discord, twitter, gitbook, telegram, github, created_at,update_at,status,size
+        from project_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projecttype != null and projecttype != ''">
+                and projecttype = #{projecttype}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectname = #{projectname}
+            </if>
+            <if test="projecttokenname != null and projecttokenname != ''">
+                and projecttokenname = #{projecttokenname}
+            </if>
+            <if test="projectdescription != null and projectdescription != ''">
+                and projectdescription = #{projectdescription}
+            </if>
+            <if test="website != null and website != ''">
+                and website = #{website}
+            </if>
+            <if test="discord != null and discord != ''">
+                and discord = #{discord}
+            </if>
+            <if test="twitter != null and twitter != ''">
+                and twitter = #{twitter}
+            </if>
+            <if test="gitbook != null and gitbook != ''">
+                and gitbook = #{gitbook}
+            </if>
+            <if test="telegram != null and telegram != ''">
+                and telegram = #{telegram}
+            </if>
+            <if test="github != null and github != ''">
+                and github = #{github}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updateAt != null">
+                and update_at = #{updateAt}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <select id="countSb" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM project_info
+                 where status = 1
+    </select>
+
+
+
+
+    <select id="queryAllOa" resultMap="ProjectInfoMap">
+        select
+        id, projecttype, projectname,projecttokenname, projectdescription, website, discord, twitter, gitbook, telegram, github, created_at,update_at,status,size
+        from project_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projecttype != null and projecttype != ''">
+                and projecttype = #{projecttype}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectname = #{projectname}
+            </if>
+            <if test="projecttokenname != null and projecttokenname != ''">
+                and projecttokenname = #{projecttokenname}
+            </if>
+            <if test="projectdescription != null and projectdescription != ''">
+                and projectdescription = #{projectdescription}
+            </if>
+            <if test="website != null and website != ''">
+                and website = #{website}
+            </if>
+            <if test="discord != null and discord != ''">
+                and discord = #{discord}
+            </if>
+            <if test="twitter != null and twitter != ''">
+                and twitter = #{twitter}
+            </if>
+            <if test="gitbook != null and gitbook != ''">
+                and gitbook = #{gitbook}
+            </if>
+            <if test="telegram != null and telegram != ''">
+                and telegram = #{telegram}
+            </if>
+            <if test="github != null and github != ''">
+                and github = #{github}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updateAt != null">
+                and update_at = #{updateAt}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="projectInfo" resultMap="ProjectInfoMap">
+        select
+        id, projecttype, projectname,projecttokenname, projectdescription, projectlogo, projecthead, projectnft, website, discord, twitter, gitbook, telegram, github, created_at,update_at,status,size
+        from project_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projecttype != null and projecttype != ''">
+                and projecttype = #{projecttype}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectname = #{projectname}
+            </if>
+            <if test="projecttokenname != null and projecttokenname != ''">
+                and projecttokenname = #{projecttokenname}
+            </if>
+            <if test="projectdescription != null and projectdescription != ''">
+                and projectdescription = #{projectdescription}
+            </if>
+            <if test="projectlogo != null and projectlogo != ''">
+                and projectlogo = #{projectlogo}
+            </if>
+            <if test="projecthead != null and projecthead != ''">
+                and projecthead = #{projecthead}
+            </if>
+            <if test="projectnft != null and projectnft != ''">
+                and projectnft = #{projectnft}
+            </if>
+            <if test="website != null and website != ''">
+                and website = #{website}
+            </if>
+            <if test="discord != null and discord != ''">
+                and discord = #{discord}
+            </if>
+            <if test="twitter != null and twitter != ''">
+                and twitter = #{twitter}
+            </if>
+            <if test="gitbook != null and gitbook != ''">
+                and gitbook = #{gitbook}
+            </if>
+            <if test="telegram != null and telegram != ''">
+                and telegram = #{telegram}
+            </if>
+            <if test="github != null and github != ''">
+                and github = #{github}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updateAt != null">
+                and update_at = #{updateAt}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from project_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projecttype != null and projecttype != ''">
+                and projecttype = #{projecttype}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectname = #{projectname}
+            </if>
+            <if test="projectdescription != null and projectdescription != ''">
+                and projectdescription = #{projectdescription}
+            </if>
+            <if test="projectlogo != null and projectlogo != ''">
+                and projectlogo = #{projectlogo}
+            </if>
+            <if test="projecthead != null and projecthead != ''">
+                and projecthead = #{projecthead}
+            </if>
+            <if test="projectnft != null and projectnft != ''">
+                and projectnft = #{projectnft}
+            </if>
+            <if test="website != null and website != ''">
+                and website = #{website}
+            </if>
+            <if test="discord != null and discord != ''">
+                and discord = #{discord}
+            </if>
+            <if test="twitter != null and twitter != ''">
+                and twitter = #{twitter}
+            </if>
+            <if test="gitbook != null and gitbook != ''">
+                and gitbook = #{gitbook}
+            </if>
+            <if test="telegram != null and telegram != ''">
+                and telegram = #{telegram}
+            </if>
+            <if test="github != null and github != ''">
+                and github = #{github}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into project_info(projecttype, projectname, projecttokenname,projectdescription, projectlogo, projecthead, projectnft, "logoSuffix","headSuffix","nftSuffix",website, discord, twitter, gitbook, telegram, github, created_at,update_at,status,size)
+        values (#{projecttype}, #{projectname},#{projecttokenname}, #{projectdescription}, #{projectlogo}, #{projecthead}, #{projectnft},#{logoSuffix},#{headSuffix},#{nftSuffix}, #{website}, #{discord}, #{twitter}, #{gitbook}, #{telegram}, #{github}, NOW(),NOW(),#{status},#{size})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into project_info(projecttype, projectname, projectdescription, projectlogo, projecthead, projectnft, website, discord, twitter, gitbook, telegram, github, created_at,update_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.projecttype}, #{entity.projectname}, #{entity.projectdescription}, #{entity.projectlogo}, #{entity.projecthead}, #{entity.projectnft}, #{entity.website}, #{entity.discord}, #{entity.twitter}, #{entity.gitbook}, #{entity.telegram}, #{entity.github}, #{entity.createdAt},NOW())
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into project_info(projecttype, projectname, projectdescription, projectlogo, projecthead, projectnft, website, discord, twitter, gitbook, telegram, github, created_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.projecttype}, #{entity.projectname}, #{entity.projectdescription}, #{entity.projectlogo}, #{entity.projecthead}, #{entity.projectnft}, #{entity.website}, #{entity.discord}, #{entity.twitter}, #{entity.gitbook}, #{entity.telegram}, #{entity.github}, #{entity.createdAt})
+        </foreach>
+        on duplicate key update
+        projecttype = values(projecttype),
+        projectname = values(projectname),
+        projecttokenname = values(projecttokenname),
+        projectdescription = values(projectdescription),
+        projectlogo = values(projectlogo),
+        projecthead = values(projecthead),
+        projectnft = values(projectnft),
+        website = values(website),
+        discord = values(discord),
+        twitter = values(twitter),
+        gitbook = values(gitbook),
+        telegram = values(telegram),
+        github = values(github),
+        created_at = values(created_at)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update project_info
+        <set>
+            <if test="projecttype != null and projecttype != ''">
+                projecttype = #{projecttype},
+            </if>
+            <if test="projectname != null ">
+                projectname = #{projectname},
+            </if>
+            <if test="projecttokenname != null ">
+                projecttokenname = #{projecttokenname},
+            </if>
+
+            <if test="projectdescription != null ">
+                projectdescription = #{projectdescription},
+            </if>
+            <if test="projectlogo != null ">
+                projectlogo = #{projectlogo},
+            </if>
+            <if test="projecthead != null ">
+                projecthead = #{projecthead},
+            </if>
+            <if test="projectnft != null ">
+                projectnft = #{projectnft},
+            </if>
+            <if test="website != null ">
+                website = #{website},
+            </if>
+            <if test="discord != null ">
+                discord = #{discord},
+            </if>
+            <if test="twitter != null ">
+                twitter = #{twitter},
+            </if>
+            <if test="gitbook != null ">
+                gitbook = #{gitbook},
+            </if>
+            <if test="telegram != null ">
+                telegram = #{telegram},
+            </if>
+            <if test="github != null ">
+                github = #{github},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="logoSuffix != null and logoSuffix != ''">
+                "logoSuffix" = #{logoSuffix},
+            </if>
+            <if test="headSuffix != null and headSuffix != ''">
+                "headSuffix" = #{headSuffix},
+            </if>
+            <if test="nftSuffix != null and nftSuffix != ''">
+                "nftSuffix" = #{nftSuffix},
+            </if>
+            <if test="nftSuffix != null ">
+                "size" = #{size},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from project_info where id = #{id}
+    </delete>
+
+</mapper>
+

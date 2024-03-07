@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.TransactionDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Transaction" id="TransactionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderId" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="addrdesc" column="addrDesc" jdbcType="VARCHAR"/>
+        <result property="txhash" column="txHash" jdbcType="VARCHAR"/>
+        <result property="txstatus" column="txStatus" jdbcType="VARCHAR"/>
+        <result property="addresstype" column="addressType" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="addressissender" column="addressIsSender" jdbcType="INTEGER"/>
+        <result property="addressisreceiver" column="addressIsReceiver" jdbcType="INTEGER"/>
+        <result property="stage" column="stage" jdbcType="VARCHAR"/>
+        <result property="amount" column="amount" jdbcType="BIGINT"/>
+        <result property="projectName" column="projectName" jdbcType="VARCHAR"/>
+        <result property="tokenName" column="tokenName" jdbcType="VARCHAR"/>
+
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TransactionMap">
+        select
+          id, orderId, address, addrDesc, txHash, txStatus, addressType, createTime, updateTime, addressIsSender, addressIsReceiver, stage, amount,projectName,tokenName
+        from transaction
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TransactionMap">
+        select
+          id, orderId, address, addrDesc, txHash, txStatus, addressType, createTime, updateTime, addressIsSender, addressIsReceiver, stage, amount
+        from transaction
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and "orderId" = #{orderid}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="addrdesc != null and addrdesc != ''">
+                and addrDesc = #{addrdesc}
+            </if>
+            <if test="txhash != null and txhash != ''">
+                and txHash = #{txhash}
+            </if>
+            <if test="txstatus != null and txstatus != ''">
+                and txStatus = #{txstatus}
+            </if>
+            <if test="addresstype != null and addresstype != ''">
+                and addressType = #{addresstype}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+            <if test="addressissender != null">
+                and addressIsSender = #{addressissender}
+            </if>
+            <if test="addressisreceiver != null">
+                and addressIsReceiver = #{addressisreceiver}
+            </if>
+            <if test="stage != null and stage != ''">
+                and stage = #{stage}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="TransactionMap">
+        SELECT
+        "id", "orderId", "address", "addrDesc", "txHash", "txStatus", "addressType", "createTime", "updateTime", "addressIsSender", "addressIsReceiver", "stage", "amount","projectName","tokenName"
+        FROM
+        "transaction"
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and "orderId" = #{orderid}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="addrdesc != null and addrdesc != ''">
+                and addrDesc = #{addrdesc}
+            </if>
+            <if test="txhash != null and txhash != ''">
+                and txHash = #{txhash}
+            </if>
+            <if test="txstatus != null and txstatus != ''">
+                and txStatus = #{txstatus}
+            </if>
+            <if test="addresstype != null and addresstype != ''">
+                and addressType = #{addresstype}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+            <if test="addressissender != null">
+                and addressIsSender = #{addressissender}
+            </if>
+            <if test="addressisreceiver != null">
+                and addressIsReceiver = #{addressisreceiver}
+            </if>
+            <if test="stage != null and stage != ''">
+                and stage = #{stage}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and "projectName" = #{projectName}
+            </if>
+            <if test="tokenName != null and tokenName != ''">
+                and tokenName = #{tokenName}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from transaction
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and orderId = #{orderid}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="addrdesc != null and addrdesc != ''">
+                and addrDesc = #{addrdesc}
+            </if>
+            <if test="txhash != null and txhash != ''">
+                and txHash = #{txhash}
+            </if>
+            <if test="txstatus != null and txstatus != ''">
+                and txStatus = #{txstatus}
+            </if>
+            <if test="addresstype != null and addresstype != ''">
+                and addressType = #{addresstype}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+            <if test="addressissender != null">
+                and addressIsSender = #{addressissender}
+            </if>
+            <if test="addressisreceiver != null">
+                and addressIsReceiver = #{addressisreceiver}
+            </if>
+            <if test="stage != null and stage != ''">
+                and stage = #{stage}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into transaction(orderId, address, addrDesc, txHash, txStatus, addressType, createTime, updateTime, addressIsSender, addressIsReceiver, stage, amount)
+        values (#{orderid}, #{address}, #{addrdesc}, #{txhash}, #{txstatus}, #{addresstype}, #{createtime}, #{updatetime}, #{addressissender}, #{addressisreceiver}, #{stage}, #{amount})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into transaction(orderId, address, addrDesc, txHash, txStatus, addressType, createTime, updateTime, addressIsSender, addressIsReceiver, stage, amount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.orderid}, #{entity.address}, #{entity.addrdesc}, #{entity.txhash}, #{entity.txstatus}, #{entity.addresstype}, #{entity.createtime}, #{entity.updatetime}, #{entity.addressissender}, #{entity.addressisreceiver}, #{entity.stage}, #{entity.amount})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into transaction(orderId, address, addrDesc, txHash, txStatus, addressType, createTime, updateTime, addressIsSender, addressIsReceiver, stage, amount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderid}, #{entity.address}, #{entity.addrdesc}, #{entity.txhash}, #{entity.txstatus}, #{entity.addresstype}, #{entity.createtime}, #{entity.updatetime}, #{entity.addressissender}, #{entity.addressisreceiver}, #{entity.stage}, #{entity.amount})
+        </foreach>
+        on duplicate key update
+        orderId = values(orderId),
+        address = values(address),
+        addrDesc = values(addrDesc),
+        txHash = values(txHash),
+        txStatus = values(txStatus),
+        addressType = values(addressType),
+        createTime = values(createTime),
+        updateTime = values(updateTime),
+        addressIsSender = values(addressIsSender),
+        addressIsReceiver = values(addressIsReceiver),
+        stage = values(stage),
+        amount = values(amount)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update transaction
+        <set>
+            <if test="orderid != null and orderid != ''">
+                orderId = #{orderid},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="addrdesc != null and addrdesc != ''">
+                addrDesc = #{addrdesc},
+            </if>
+            <if test="txhash != null and txhash != ''">
+                txHash = #{txhash},
+            </if>
+            <if test="txstatus != null and txstatus != ''">
+                txStatus = #{txstatus},
+            </if>
+            <if test="addresstype != null and addresstype != ''">
+                addressType = #{addresstype},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
+            </if>
+            <if test="addressissender != null">
+                addressIsSender = #{addressissender},
+            </if>
+            <if test="addressisreceiver != null">
+                addressIsReceiver = #{addressisreceiver},
+            </if>
+            <if test="stage != null and stage != ''">
+                stage = #{stage},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from transaction where id = #{id}
+    </delete>
+
+</mapper>
+

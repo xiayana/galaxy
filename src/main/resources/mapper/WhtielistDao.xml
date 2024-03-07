@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.WhtielistDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Whtielist" id="WhtielistMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectnetwork" column="projectnetwork" jdbcType="VARCHAR"/>
+        <result property="projectcurrency" column="projectcurrency" jdbcType="VARCHAR"/>
+        <result property="starttime" column="starttime" jdbcType="VARCHAR"/>
+        <result property="enttime" column="enttime" jdbcType="VARCHAR"/>
+        <result property="hposa" column="hposa" jdbcType="VARCHAR"/>
+        <result property="popp" column="popp" jdbcType="VARCHAR"/>
+        <result property="tokennumber" column="tokennumber" jdbcType="BIGINT"/>
+        <result property="targetnumber" column="targetnumber" jdbcType="VARCHAR"/>
+        <result property="mposa" column="mposa" jdbcType="VARCHAR"/>
+        <result property="projectmoneyaddress" column="projectmoneyaddress" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WhtielistMap">
+        select
+          id, projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid,type
+        from whitelist
+        where id = #{id}
+    </select>
+
+    <select id="queryPid" resultMap="WhtielistMap">
+        select
+        id, projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid,type
+        from whitelist
+        <where>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WhtielistMap">
+        select
+          id, projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid,type
+        from whitelist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectnetwork != null and projectnetwork != ''">
+                and projectnetwork = #{projectnetwork}
+            </if>
+            <if test="projectcurrency != null and projectcurrency != ''">
+                and projectcurrency = #{projectcurrency}
+            </if>
+            <if test="starttime != null and starttime != ''">
+                and starttime = #{starttime}
+            </if>
+            <if test="enttime != null and enttime != ''">
+                and enttime = #{enttime}
+            </if>
+            <if test="hposa != null and hposa != ''">
+                and hposa = #{hposa}
+            </if>
+            <if test="popp != null and popp != ''">
+                and popp = #{popp}
+            </if>
+            <if test="tokennumber != null">
+                and tokennumber = #{tokennumber}
+            </if>
+            <if test="targetnumber != null and targetnumber != ''">
+                and targetnumber = #{targetnumber}
+            </if>
+            <if test="mposa != null and mposa != ''">
+                and mposa = #{mposa}
+            </if>
+            <if test="projectmoneyaddress != null and projectmoneyaddress != ''">
+                and projectmoneyaddress = #{projectmoneyaddress}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    <select id="queryAll" resultMap="WhtielistMap">
+        select
+        id, projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid,type
+        from whitelist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectnetwork != null and projectnetwork != ''">
+                and projectnetwork = #{projectnetwork}
+            </if>
+            <if test="projectcurrency != null and projectcurrency != ''">
+                and projectcurrency = #{projectcurrency}
+            </if>
+            <if test="starttime != null and starttime != ''">
+                and starttime = #{starttime}
+            </if>
+            <if test="enttime != null and enttime != ''">
+                and enttime = #{enttime}
+            </if>
+            <if test="hposa != null and hposa != ''">
+                and hposa = #{hposa}
+            </if>
+            <if test="popp != null and popp != ''">
+                and popp = #{popp}
+            </if>
+            <if test="tokennumber != null">
+                and tokennumber = #{tokennumber}
+            </if>
+            <if test="targetnumber != null and targetnumber != ''">
+                and targetnumber = #{targetnumber}
+            </if>
+            <if test="mposa != null and mposa != ''">
+                and mposa = #{mposa}
+            </if>
+            <if test="projectmoneyaddress != null and projectmoneyaddress != ''">
+                and projectmoneyaddress = #{projectmoneyaddress}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from whitelist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectnetwork != null and projectnetwork != ''">
+                and projectnetwork = #{projectnetwork}
+            </if>
+            <if test="projectcurrency != null and projectcurrency != ''">
+                and projectcurrency = #{projectcurrency}
+            </if>
+            <if test="starttime != null and starttime != ''">
+                and starttime = #{starttime}
+            </if>
+            <if test="enttime != null and enttime != ''">
+                and enttime = #{enttime}
+            </if>
+            <if test="hposa != null and hposa != ''">
+                and hposa = #{hposa}
+            </if>
+            <if test="popp != null and popp != ''">
+                and popp = #{popp}
+            </if>
+            <if test="tokennumber != null">
+                and tokennumber = #{tokennumber}
+            </if>
+            <if test="targetnumber != null and targetnumber != ''">
+                and targetnumber = #{targetnumber}
+            </if>
+            <if test="mposa != null and mposa != ''">
+                and mposa = #{mposa}
+            </if>
+            <if test="projectmoneyaddress != null and projectmoneyaddress != ''">
+                and projectmoneyaddress = #{projectmoneyaddress}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into whitelist(projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid,type,price)
+        values (#{projectnetwork}, #{projectcurrency}, #{starttime}, #{enttime}, #{hposa}, #{popp}, #{tokennumber}, #{targetnumber}, #{mposa}, #{projectmoneyaddress}, #{pid}, #{type},#{price})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into whitelist(projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.projectnetwork}, #{entity.projectcurrency}, #{entity.starttime}, #{entity.enttime}, #{entity.hposa}, #{entity.popp}, #{entity.tokennumber}, #{entity.targetnumber}, #{entity.mposa}, #{entity.projectmoneyaddress}, #{entity.pid})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into whitelist(projectnetwork, projectcurrency, starttime, enttime, hposa, popp, tokennumber, targetnumber, mposa, projectmoneyaddress, pid)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.projectnetwork}, #{entity.projectcurrency}, #{entity.starttime}, #{entity.enttime}, #{entity.hposa}, #{entity.popp}, #{entity.tokennumber}, #{entity.targetnumber}, #{entity.mposa}, #{entity.projectmoneyaddress}, #{entity.pid})
+        </foreach>
+        on duplicate key update
+        projectnetwork = values(projectnetwork),
+        projectcurrency = values(projectcurrency),
+        starttime = values(starttime),
+        enttime = values(enttime),
+        hposa = values(hposa),
+        popp = values(popp),
+        tokennumber = values(tokennumber),
+        targetnumber = values(targetnumber),
+        mposa = values(mposa),
+        projectmoneyaddress = values(projectmoneyaddress),
+        pid = values(pid)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update whitelist
+        <set>
+            <if test="projectnetwork != null and projectnetwork != ''">
+                projectnetwork = #{projectnetwork},
+            </if>
+            <if test="projectcurrency != null and projectcurrency != ''">
+                projectcurrency = #{projectcurrency},
+            </if>
+            <if test="starttime != null and starttime != ''">
+                starttime = #{starttime},
+            </if>
+            <if test="enttime != null and enttime != ''">
+                enttime = #{enttime},
+            </if>
+            <if test="hposa != null and hposa != ''">
+                hposa = #{hposa},
+            </if>
+            <if test="popp != null and popp != ''">
+                popp = #{popp},
+            </if>
+            <if test="tokennumber != null">
+                tokennumber = #{tokennumber},
+            </if>
+            <if test="targetnumber != null and targetnumber != ''">
+                targetnumber = #{targetnumber},
+            </if>
+            <if test="mposa != null and mposa != ''">
+                mposa = #{mposa},
+            </if>
+            <if test="projectmoneyaddress != null and projectmoneyaddress != ''">
+                projectmoneyaddress = #{projectmoneyaddress},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from whitelist where id = #{id}
+    </delete>
+
+</mapper>
+

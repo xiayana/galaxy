@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.OrderlistDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Orderlist" id="OrderlistMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderId" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="projectname" column="projectName" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="tokenname" column="tokenName" jdbcType="VARCHAR"/>
+        <result property="stage" column="stage" jdbcType="VARCHAR"/>
+        <result property="fromaddr" column="fromAddr" jdbcType="VARCHAR"/>
+        <result property="fundaddr" column="fundAddr" jdbcType="VARCHAR"/>
+        <result property="receivedAddr" column="receivedAddr" jdbcType="VARCHAR"/>
+        <result property="transmitAddr" column="transmitAddr" jdbcType="VARCHAR"/>
+        <result property="amount" column="amount" jdbcType="BIGINT"/>
+        <result property="projectquota" column="projectQuota" jdbcType="FLOAT"/>
+        <result property="platformquota" column="platformQuota" jdbcType="FLOAT"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="buyAmount" column="buyAmount" jdbcType="INTEGER"/>
+
+        <result property="txHash" column="txHash" jdbcType="VARCHAR"/>
+        <result property="hasIncribled" column="hasIncribled" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="BIGINT"/>
+        <result property="failuredescription" column="failuredescription" jdbcType="VARCHAR"/>
+        <result property="handlingfee" column="handlingfee" jdbcType="DOUBLE"/>
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderlistMap">
+        select
+          id, orderId, status, projectName, type, tokenName, stage, fromAddr, fundAddr, toAddr, amount, projectQuota, platformQuota, createTime, updateTime,"handlingfee"
+        from orderlist
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderlistMap">
+        select
+          id, orderId, status, projectName, type, tokenName, stage, fromAddr, fundAddr, toAddr, amount, projectQuota, platformQuota, createTime, updateTime
+        from orderlist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and "orderId" = #{orderid}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectName = #{projectname}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="tokenname != null and tokenname != ''">
+                and tokenName = #{tokenname}
+            </if>
+            <if test="stage != null and stage != ''">
+                and stage = #{stage}
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                and fromAddr = #{fromaddr}
+            </if>
+            <if test="fundaddr != null and fundaddr != ''">
+                and fundAddr = #{fundaddr}
+            </if>
+            <if test="receivedAddr != null and receivedAddr != ''">
+                and receivedAddr = #{receivedAddr}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="projectquota != null and projectquota != ''">
+                and projectQuota = #{projectquota}
+            </if>
+            <if test="platformquota != null and platformquota != ''">
+                and platformQuota = #{platformquota}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="OrderlistMap">
+        select
+        id, "orderId", status, "projectName", "type", "tokenName", stage, "fromAddr", "fundAddr", "receivedAddr","transmitAddr", amount, "projectQuota", "platformQuota", "createTime", "updateTime" ,"buyAmount","pid" ,"txHash","hasIncribled" ,"handlingfee","failuredescription"      from orderlist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and "orderId" = #{orderid}
+            </if>
+            <if test="status != null and status != ''">
+                and "status" = #{status}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and "projectName" = #{projectname}
+            </if>
+            <if test="type != null and type != ''">
+                and "type" = #{type}
+            </if>
+            <if test="tokenname != null and tokenname != ''">
+                and "tokenName" = #{tokenname}
+            </if>
+            <if test="stage != null and stage != ''">
+                and "stage" = #{stage}
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                and "fromAddr" = #{fromaddr}
+            </if>
+            <if test="fundaddr != null and fundaddr != ''">
+                and "fundAddr" = #{fundaddr}
+            </if>
+            <if test="receivedAddr != null and receivedAddr != ''">
+                and "receivedAddr" = #{receivedAddr}
+            </if>
+            <if test="transmitAddr != null and transmitAddr != ''">
+                and "transmitAddr" = #{transmitAddr}
+            </if>
+            <if test="amount != null">
+                and "amount" = #{amount}
+            </if>
+            <if test="projectquota != null and projectquota != ''">
+                and "projectQuota" = #{projectquota}
+            </if>
+            <if test="platformquota != null and platformquota != ''">
+                and "platformQuota" = #{platformquota}
+            </if>
+            <if test="createtime != null">
+                and "createTime" = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and "updateTime" = #{updatetime}
+            </if>
+            <if test="buyAmount != null">
+                and "buyAmount" = #{buyAmount}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllOa" resultMap="OrderlistMap">
+        select
+        id, "orderId", status, "projectName", "type", "tokenName", stage, "fromAddr", "fundAddr", "receivedAddr","transmitAddr", amount, "projectQuota", "platformQuota", "createTime", "updateTime" ,"buyAmount","pid" ,"txHash","hasIncribled","handlingfee"      from orderlist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and "orderId" = #{orderid}
+            </if>
+            <if test="status != null and status != ''">
+                and "status" = #{status}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and "projectName" = #{projectname}
+            </if>
+            <if test="type != null and type != ''">
+                and "type" = #{type}
+            </if>
+            <if test="tokenname != null and tokenname != ''">
+                and "tokenName" = #{tokenname}
+            </if>
+            <if test="stage != null and stage != ''">
+                and "stage" = #{stage}
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                and (
+                "fromAddr" = #{fromaddr} or
+                "fundAddr" = #{fromaddr} or
+                "receivedAddr" = #{fromaddr} or
+                "transmitAddr" = #{fromaddr}
+                )
+            </if>
+            <if test="fundaddr != null and fundaddr != ''">
+                and "fundAddr" = #{fundaddr}
+            </if>
+            <if test="receivedAddr != null and receivedAddr != ''">
+                and "receivedAddr" = #{receivedAddr}
+            </if>
+            <if test="transmitAddr != null and transmitAddr != ''">
+                and "transmitAddr" = #{transmitAddr}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="projectquota != null and projectquota != ''">
+                and "projectQuota" = #{projectquota}
+            </if>
+            <if test="platformquota != null and platformquota != ''">
+                and "platformQuota" = #{platformquota}
+            </if>
+            <if test="createtime != null">
+                and "createTime" = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and "updateTime" = #{updatetime}
+            </if>
+            <if test="buyAmount != null">
+                and "buyAmount" = #{buyAmount}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from orderlist
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and orderId = #{orderid}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and projectName = #{projectname}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="tokenname != null and tokenname != ''">
+                and tokenName = #{tokenname}
+            </if>
+            <if test="stage != null and stage != ''">
+                and stage = #{stage}
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                and fromAddr = #{fromaddr}
+            </if>
+            <if test="fundaddr != null and fundaddr != ''">
+                and fundAddr = #{fundaddr}
+            </if>
+            <if test="toaddr != null and toaddr != ''">
+                and toAddr = #{toaddr}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="projectquota != null and projectquota != ''">
+                and projectQuota = #{projectquota}
+            </if>
+            <if test="platformquota != null and platformquota != ''">
+                and platformQuota = #{platformquota}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryAmountRepeat" resultType="java.lang.Long">
+        select count(1)
+        from orderlist
+        <where>
+            <if test="stage != null and stage != ''">
+                and stage = #{stage}
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                and "fromAddr" = #{fromaddr}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+    </select>
+
+
+
+    <select id="usersCount" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT "fromAddr") FROM orderlist
+    </select>
+    <select id="raisedCount" resultType="java.lang.Long">
+        SELECT SUM(amount)
+        FROM orderlist
+        WHERE status IN ('unisatVerify', 'completed','distribute');
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllStatus" resultMap="OrderlistMap">
+        select
+        id, "orderId", status, "projectName", "type", "tokenName", stage, "fromAddr", "fundAddr", "receivedAddr","transmitAddr", amount, "projectQuota", "platformQuota", "createTime", "updateTime" ,"buyAmount","pid" ,"txHash","hasIncribled","handlingfee"       from orderlist
+        <where>
+            status IN ('unisatVerify', 'completed','distribute')
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and "orderId" = #{orderid}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and "projectName" = #{projectname}
+            </if>
+            <if test="type != null and type != ''">
+                and "type" = #{type}
+            </if>
+            <if test="tokenname != null and tokenname != ''">
+                and "tokenName" = #{tokenname}
+            </if>
+            <if test="stage != null and stage != ''">
+                and "stage" = #{stage}
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                and "fromAddr" = #{fromaddr}
+            </if>
+            <if test="fundaddr != null and fundaddr != ''">
+                and "fundAddr" = #{fundaddr}
+            </if>
+            <if test="receivedAddr != null and receivedAddr != ''">
+                and "receivedAddr" = #{receivedAddr}
+            </if>
+            <if test="transmitAddr != null and transmitAddr != ''">
+                and "transmitAddr" = #{transmitAddr}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="projectquota != null and projectquota != ''">
+                and "projectQuota" = #{projectquota}
+            </if>
+            <if test="platformquota != null and platformquota != ''">
+                and "platformQuota" = #{platformquota}
+            </if>
+            <if test="createtime != null">
+                and "createTime" = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and "updateTime" = #{updatetime}
+            </if>
+            <if test="buyAmount != null">
+                and "buyAmount" = #{buyAmount}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <select id="totalPersonPurchased" resultType="java.lang.Long">
+        SELECT SUM("buyAmount")
+        FROM orderlist
+        <where>
+            status IN ('unisatVerify', 'completed','distribute')
+            <if test="pid != null">
+                AND pid = #{pid}
+            </if>
+            <if test="stage != null and stage != ''">
+                AND stage = #{stage}
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO orderlist("orderId", "status", "projectName", "type", "tokenName", "stage", "fromAddr", "fundAddr", "receivedAddr", "transmitAddr", "amount", "projectQuota", "platformQuota", "createTime", "updateTime",  "buyAmount", "pid","price","txHash","hasIncribled" ,"failuredescription","handlingfee" )
+        values (#{orderid}, #{status}, #{projectname}, #{type}, #{tokenname}, #{stage}, #{fromaddr}, #{fundaddr}, #{receivedAddr},#{transmitAddr}, #{amount}, #{projectquota}, #{platformquota}, NOW(), NOW(),#{buyAmount},#{pid},#{price},#{txHash},#{hasIncribled},#{failuredescription},#{handlingfee})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into orderlist(orderId, status, projectName, type, tokenName, stage, fromAddr, fundAddr, toAddr, amount, projectQuota, platformQuota, createTime, updateTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.orderid}, #{entity.status}, #{entity.projectname}, #{entity.type}, #{entity.tokenname}, #{entity.stage}, #{entity.fromaddr}, #{entity.fundaddr}, #{entity.toaddr}, #{entity.amount}, #{entity.projectquota}, #{entity.platformquota}, #{entity.createtime}, #{entity.updatetime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into orderlist(orderId, status, projectName, type, tokenName, stage, fromAddr, fundAddr, toAddr, amount, projectQuota, platformQuota, createTime, updateTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderid}, #{entity.status}, #{entity.projectname}, #{entity.type}, #{entity.tokenname}, #{entity.stage}, #{entity.fromaddr}, #{entity.fundaddr}, #{entity.toaddr}, #{entity.amount}, #{entity.projectquota}, #{entity.platformquota}, #{entity.createtime}, #{entity.updatetime})
+        </foreach>
+        on duplicate key update
+        orderId = values(orderId),
+        status = values(status),
+        projectName = values(projectName),
+        type = values(type),
+        tokenName = values(tokenName),
+        stage = values(stage),
+        fromAddr = values(fromAddr),
+        fundAddr = values(fundAddr),
+        toAddr = values(toAddr),
+        amount = values(amount),
+        projectQuota = values(projectQuota),
+        platformQuota = values(platformQuota),
+        createTime = values(createTime),
+        updateTime = values(updateTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update orderlist
+        <set>
+            <if test="orderid != null and orderid != ''">
+                orderId = #{orderid},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="projectname != null and projectname != ''">
+                projectName = #{projectname},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="tokenname != null and tokenname != ''">
+                tokenName = #{tokenname},
+            </if>
+            <if test="stage != null and stage != ''">
+                stage = #{stage},
+            </if>
+            <if test="fromaddr != null and fromaddr != ''">
+                fromAddr = #{fromaddr},
+            </if>
+            <if test="fundaddr != null and fundaddr != ''">
+                fundAddr = #{fundaddr},
+            </if>
+            <if test="toaddr != null and toaddr != ''">
+                toAddr = #{toaddr},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="projectquota != null and projectquota != ''">
+                projectQuota = #{projectquota},
+            </if>
+            <if test="platformquota != null and platformquota != ''">
+                platformQuota = #{platformquota},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from orderlist where id = #{id}
+    </delete>
+
+</mapper>
+

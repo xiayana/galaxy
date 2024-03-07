@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.UserInfoDao">
+
+    <resultMap type="com.lab8.galaxy.entity.UserInfo" id="UserInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="usernumber" column="usernumber" jdbcType="VARCHAR"/>
+        <result property="userpwd" column="userpwd" jdbcType="VARCHAR"/>
+        <result property="logintime" column="logintime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserInfoMap">
+        select
+          id, usernumber, userpwd, logintime
+        from user_info
+        where id = #{id}
+    </select>
+    <select id="findByUserNumber" resultMap="UserInfoMap">
+        select
+            id, usernumber, userpwd, logintime
+        from user_info
+        where usernumber = #{userNumber}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserInfoMap">
+        select
+          id, usernumber, userpwd, logintime
+        from user_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="usernumber != null and usernumber != ''">
+                and usernumber = #{usernumber}
+            </if>
+            <if test="userpwd != null and userpwd != ''">
+                and userpwd = #{userpwd}
+            </if>
+            <if test="logintime != null and logintime != ''">
+                and logintime = #{logintime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from user_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="usernumber != null and usernumber != ''">
+                and usernumber = #{usernumber}
+            </if>
+            <if test="userpwd != null and userpwd != ''">
+                and userpwd = #{userpwd}
+            </if>
+            <if test="logintime != null and logintime != ''">
+                and logintime = #{logintime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into user_info(usernumber, userpwd, logintime)
+        values (#{usernumber}, #{userpwd}, #{logintime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user_info(usernumber, userpwd, logintime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.usernumber}, #{entity.userpwd}, #{entity.logintime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user_info(usernumber, userpwd, logintime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.usernumber}, #{entity.userpwd}, #{entity.logintime})
+        </foreach>
+        on duplicate key update
+        usernumber = values(usernumber),
+        userpwd = values(userpwd),
+        logintime = values(logintime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user_info
+        <set>
+            <if test="usernumber != null and usernumber != ''">
+                usernumber = #{usernumber},
+            </if>
+            <if test="userpwd != null and userpwd != ''">
+                userpwd = #{userpwd},
+            </if>
+            <if test="logintime != null and logintime != ''">
+                logintime = #{logintime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from user_info where id = #{id}
+    </delete>
+
+</mapper>
+

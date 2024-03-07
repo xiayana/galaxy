@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.FundAddressDao">
+
+    <resultMap type="com.lab8.galaxy.entity.FundAddress" id="FundAddressMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="used" column="used" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="VARCHAR"/>
+        <result property="updatetime" column="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FundAddressMap">
+        select
+          id, pid, address, used, createTime, updateTime
+        from fund_address
+        where id = #{id}
+    </select>
+    <select id="selectFaddress" resultType="java.lang.String">
+        select
+          address
+        from fund_address
+        where pid = #{pid} and used = #{used}
+            limit 1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FundAddressMap">
+        select
+          id, pid, address, used, createTime, updateTime
+        from fund_address
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="used != null">
+                and used = #{used}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null and updatetime != ''">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from fund_address
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="used != null">
+                and used = #{used}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null and updatetime != ''">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into fund_address(pid, address, used, createTime, updateTime)
+        values (#{pid}, #{address}, #{used}, #{createtime}, #{updatetime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into fund_address(pid, address, used, createTime, updateTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.pid}, #{entity.address}, #{entity.used}, #{entity.createtime}, #{entity.updatetime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into fund_address(pid, address, used, createTime, updateTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.pid}, #{entity.address}, #{entity.used}, #{entity.createtime}, #{entity.updatetime})
+        </foreach>
+        on duplicate key update
+        pid = values(pid),
+        address = values(address),
+        used = values(used),
+        createTime = values(createTime),
+        updateTime = values(updateTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update fund_address
+        <set>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="used != null">
+                used = #{used},
+            </if>
+            <if test="createtime != null and createtime != ''">
+                createTime = #{createtime},
+            </if>
+            <if test="updatetime != null and updatetime != ''">
+                updateTime = #{updatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from fund_address where id = #{id}
+    </delete>
+
+</mapper>
+
