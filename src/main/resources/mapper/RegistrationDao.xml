@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.RegistrationDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Registration" id="RegistrationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userAddress" column="user_address" jdbcType="VARCHAR"/>
+        <result property="isActive" column="is_active" jdbcType="INTEGER"/>
+        <result property="personalScore" column="personal_score" jdbcType="BIGINT"/>
+        <result property="invitedIds" column="invited_ids" jdbcType="VARCHAR"/>
+        <result property="depositAmount" column="deposit_amount" jdbcType="VARCHAR"/>
+        <result property="personalInvitationCode" column="personal_invitation_code" jdbcType="VARCHAR"/>
+        <result property="parentUserAddress" column="parent_user_address" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="twitterAddress" column="twitter_address" jdbcType="VARCHAR"/>
+        <result property="twitterAddress" column="twitter_address" jdbcType="VARCHAR"/>
+        <result property="parentUserAddress" column="parent_user_code" jdbcType="VARCHAR"/>
+        <result property="twitterScreenName" column="twitter_screen_name" jdbcType="VARCHAR"/>
+
+        <result property="ethcount" column="ethcount" jdbcType="DECIMAL"/>
+        <result property="usdccount" column="usdccount" jdbcType="DECIMAL"/>
+        <result property="triascount" column="triascount" jdbcType="DECIMAL"/>
+        <result property="usdtcount" column="usdtcount" jdbcType="DECIMAL"/>
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RegistrationMap">
+        select
+          id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at
+        from registration
+        where id = #{id}
+    </select>
+<!--    <select id="queryByRank" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM registration
+        WHERE personal_score > (
+            SELECT personal_score
+            FROM registration
+            WHERE id = #{id}
+        );
+    </select>-->
+    <select id="queryByRank" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM registration
+        WHERE personal_score > (
+        SELECT personal_score
+        FROM registration
+        WHERE id = #{id}
+        )
+        OR (personal_score = (
+        SELECT personal_score
+        FROM registration
+        WHERE id = #{id}
+        ) AND id &lt; #{id});
+    </select>
+
+    <select id="sumDepositAmount" resultType="java.math.BigDecimal">
+        SELECT SUM(deposit_amount) FROM registration
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RegistrationMap">
+        select
+          id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at
+        from registration
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                and is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                and personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                and invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                and deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                and personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                and parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllPage" resultMap="RegistrationMap">
+        select
+        id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at,twitter_screen_name
+        from registration
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                and is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                and personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                and invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                and deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                and personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                and parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="twitterScreenName != null and twitterScreenName != ''">
+                and twitter_screen_name = #{twitterScreenName}
+            </if>
+        </where>
+        order by personal_score desc
+    </select>
+    <select id="queryAllPagePaiHang" resultMap="RegistrationMap">
+        SELECT
+        id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at, twitter_screen_name
+        FROM registration
+        <where>
+            user_address != 'admin'
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                AND user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                AND is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                AND personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                AND invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                AND deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                AND personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                AND parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="createdAt != null">
+                AND created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                AND updated_at = #{updatedAt}
+            </if>
+            <if test="twitterScreenName != null and twitterScreenName != ''">
+                AND twitter_screen_name = #{twitterScreenName}
+            </if>
+        </where>
+        ORDER BY personal_score DESC
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="RegistrationMap">
+        select
+        id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at,twitter_address,twitter_screen_name,ethcount,usdccount,triascount,usdtcount
+        from registration
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                and is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                and personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                and invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                and deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                and personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                and parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="parentUserCode != null and parentUserCode != ''">
+                and parent_user_code = #{parentUserCode}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="twitterAddress != null and twitterAddress != ''">
+                and twitter_address = #{twitterAddress}
+            </if>
+            <if test="twitterScreenName != null and twitterScreenName != ''">
+                and twitter_screen_name = #{twitterScreenName}
+            </if>
+            <if test="ethcount != null">
+                and ethcount = #{ethcount}
+            </if>
+            <if test="usdccount != null">
+                and usdccount = #{usdccount}
+            </if>
+            <if test="triascount != null">
+                and triascount = #{triascount}
+            </if>
+        </where>
+        order by personal_score DESC, id ASC
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from registration
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                and is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                and personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                and invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                and deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                and personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                and parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into registration(user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at,twitter_address,parent_user_code,twitter_screen_name)
+        values (#{userAddress}, #{isActive}, #{personalScore}, #{invitedIds}, #{depositAmount}, #{personalInvitationCode}, #{parentUserAddress}, NOW(), NOW(),#{twitterAddress},#{parentUserCode},#{twitterScreenName})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into registration(user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at,)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.userAddress}, #{entity.isActive}, #{entity.personalScore}, #{entity.invitedIds}, #{entity.depositAmount}, #{entity.personalInvitationCode}, #{entity.parentUserAddress}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into registration(user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userAddress}, #{entity.isActive}, #{entity.personalScore}, #{entity.invitedIds}, #{entity.depositAmount}, #{entity.personalInvitationCode}, #{entity.parentUserAddress}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+        on duplicate key update
+        user_address = values(user_address),
+        is_active = values(is_active),
+        personal_score = values(personal_score),
+        invited_ids = values(invited_ids),
+        deposit_amount = values(deposit_amount),
+        personal_invitation_code = values(personal_invitation_code),
+        parent_user_address = values(parent_user_address),
+        created_at = values(created_at),
+        updated_at = values(updated_at)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update registration
+        <set>
+            <if test="userAddress != null and userAddress != ''">
+                user_address = #{userAddress},
+            </if>
+            <if test="isActive != null">
+                is_active = #{isActive},
+            </if>
+            <if test="personalScore != null">
+                personal_score = #{personalScore},
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                invited_ids = #{invitedIds},
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                deposit_amount = #{depositAmount},
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                personal_invitation_code = #{personalInvitationCode},
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                parent_user_address = #{parentUserAddress},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from registration where id = #{id}
+    </delete>
+
+</mapper>
+

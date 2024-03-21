@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.TokentableDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Tokentable" id="TokentableMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="inMain" column="in_main" jdbcType="INTEGER"/>
+        <result property="lastUpdated" column="last_updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TokentableMap">
+        select
+          id, label, address, pid, in_main, last_updated
+        from tokentable
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TokentableMap">
+        select
+          id, label, address, pid, in_main, last_updated
+        from tokentable
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="inMain != null">
+                and in_main = #{inMain}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="TokentableMap">
+        select
+        id, label, address, pid, in_main, last_updated
+        from tokentable
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="inMain != null">
+                and in_main = #{inMain}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByAll" resultMap="TokentableMap">
+        select
+        id, label, address, pid, in_main, last_updated
+        from tokentable
+        <where>
+         and pid = #{pid}
+        </where>
+    </select>
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from tokentable
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="inMain != null">
+                and in_main = #{inMain}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tokentable(label, address, pid, in_main, last_updated)
+        values (#{label}, #{address}, #{pid}, #{inMain}, #{lastUpdated})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into tokentable(label, address, pid, in_main, last_updated)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.label}, #{entity.address}, #{entity.pid}, #{entity.inMain}, #{entity.lastUpdated})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into tokentable(label, address, pid, in_main, last_updated)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.label}, #{entity.address}, #{entity.pid}, #{entity.inMain}, #{entity.lastUpdated})
+        </foreach>
+        on duplicate key update
+        label = values(label),
+        address = values(address),
+        pid = values(pid),
+        in_main = values(in_main),
+        last_updated = values(last_updated)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tokentable
+        <set>
+            <if test="label != null and label != ''">
+                label = #{label},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="inMain != null">
+                in_main = #{inMain},
+            </if>
+            <if test="lastUpdated != null">
+                last_updated = #{lastUpdated},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tokentable where id = #{id}
+    </delete>
+
+</mapper>
+

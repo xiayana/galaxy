@@ -86,7 +86,6 @@ public class Orderlist implements Serializable {
      */
     private Date updatetime;
     private String amountFloat;
-    private List<Transaction>  tlist;
     private Integer buyAmount;
     @NonNull
     private Integer pid;

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.RegistrationmomentDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Registrationmoment" id="RegistrationmomentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userAddress" column="user_address" jdbcType="VARCHAR"/>
+        <result property="isActive" column="is_active" jdbcType="INTEGER"/>
+        <result property="personalScore" column="personal_score" jdbcType="BIGINT"/>
+        <result property="invitedIds" column="invited_ids" jdbcType="VARCHAR"/>
+        <result property="depositAmount" column="deposit_amount" jdbcType="VARCHAR"/>
+        <result property="personalInvitationCode" column="personal_invitation_code" jdbcType="VARCHAR"/>
+        <result property="parentUserAddress" column="parent_user_address" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="twitterAddress" column="twitter_address" jdbcType="VARCHAR"/>
+        <result property="parentUserCode" column="parent_user_code" jdbcType="VARCHAR"/>
+        <result property="twitterScreenName" column="twitter_screen_name" jdbcType="VARCHAR"/>
+        <result property="ethcount" column="ethcount" jdbcType="DECIMAL"/>
+        <result property="usdccount" column="usdccount" jdbcType="DECIMAL"/>
+        <result property="triascount" column="triascount" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RegistrationmomentMap">
+        select
+          id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at, twitter_address, parent_user_code, twitter_screen_name, ethcount, usdccount, triascount
+        from registrationmoment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RegistrationmomentMap">
+        select
+          id, user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at, twitter_address, parent_user_code, twitter_screen_name, ethcount, usdccount, triascount
+        from registrationmoment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                and is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                and personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                and invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                and deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                and personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                and parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="twitterAddress != null and twitterAddress != ''">
+                and twitter_address = #{twitterAddress}
+            </if>
+            <if test="parentUserCode != null and parentUserCode != ''">
+                and parent_user_code = #{parentUserCode}
+            </if>
+            <if test="twitterScreenName != null and twitterScreenName != ''">
+                and twitter_screen_name = #{twitterScreenName}
+            </if>
+            <if test="ethcount != null and ethcount != ''">
+                and ethcount = #{ethcount}
+            </if>
+            <if test="usdccount != null and usdccount != ''">
+                and usdccount = #{usdccount}
+            </if>
+            <if test="triascount != null and triascount != ''">
+                and triascount = #{triascount}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from registrationmoment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="isActive != null">
+                and is_active = #{isActive}
+            </if>
+            <if test="personalScore != null">
+                and personal_score = #{personalScore}
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                and invited_ids = #{invitedIds}
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                and deposit_amount = #{depositAmount}
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                and personal_invitation_code = #{personalInvitationCode}
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                and parent_user_address = #{parentUserAddress}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="twitterAddress != null and twitterAddress != ''">
+                and twitter_address = #{twitterAddress}
+            </if>
+            <if test="parentUserCode != null and parentUserCode != ''">
+                and parent_user_code = #{parentUserCode}
+            </if>
+            <if test="twitterScreenName != null and twitterScreenName != ''">
+                and twitter_screen_name = #{twitterScreenName}
+            </if>
+            <if test="ethcount != null and ethcount != ''">
+                and ethcount = #{ethcount}
+            </if>
+            <if test="usdccount != null and usdccount != ''">
+                and usdccount = #{usdccount}
+            </if>
+            <if test="triascount != null and triascount != ''">
+                and triascount = #{triascount}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into registrationmoment(user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at, twitter_address, parent_user_code, twitter_screen_name, ethcount, usdccount, triascount)
+        values (#{userAddress}, #{isActive}, #{personalScore}, #{invitedIds}, #{depositAmount}, #{personalInvitationCode}, #{parentUserAddress}, NOW(),#{updatedAt}, #{twitterAddress}, #{parentUserCode}, #{twitterScreenName}, #{ethcount}, #{usdccount}, #{triascount})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into registrationmoment(user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at, twitter_address, parent_user_code, twitter_screen_name, ethcount, usdccount, triascount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.userAddress}, #{entity.isActive}, #{entity.personalScore}, #{entity.invitedIds}, #{entity.depositAmount}, #{entity.personalInvitationCode}, #{entity.parentUserAddress}, #{entity.createdAt}, #{entity.updatedAt}, #{entity.twitterAddress}, #{entity.parentUserCode}, #{entity.twitterScreenName}, #{entity.ethcount}, #{entity.usdccount}, #{entity.triascount})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into registrationmoment(user_address, is_active, personal_score, invited_ids, deposit_amount, personal_invitation_code, parent_user_address, created_at, updated_at, twitter_address, parent_user_code, twitter_screen_name, ethcount, usdccount, triascount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userAddress}, #{entity.isActive}, #{entity.personalScore}, #{entity.invitedIds}, #{entity.depositAmount}, #{entity.personalInvitationCode}, #{entity.parentUserAddress}, #{entity.createdAt}, #{entity.updatedAt}, #{entity.twitterAddress}, #{entity.parentUserCode}, #{entity.twitterScreenName}, #{entity.ethcount}, #{entity.usdccount}, #{entity.triascount})
+        </foreach>
+        on duplicate key update
+        user_address = values(user_address),
+        is_active = values(is_active),
+        personal_score = values(personal_score),
+        invited_ids = values(invited_ids),
+        deposit_amount = values(deposit_amount),
+        personal_invitation_code = values(personal_invitation_code),
+        parent_user_address = values(parent_user_address),
+        created_at = values(created_at),
+        updated_at = values(updated_at),
+        twitter_address = values(twitter_address),
+        parent_user_code = values(parent_user_code),
+        twitter_screen_name = values(twitter_screen_name),
+        ethcount = values(ethcount),
+        usdccount = values(usdccount),
+        triascount = values(triascount)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update registrationmoment
+        <set>
+            <if test="userAddress != null and userAddress != ''">
+                user_address = #{userAddress},
+            </if>
+            <if test="isActive != null">
+                is_active = #{isActive},
+            </if>
+            <if test="personalScore != null">
+                personal_score = #{personalScore},
+            </if>
+            <if test="invitedIds != null and invitedIds != ''">
+                invited_ids = #{invitedIds},
+            </if>
+            <if test="depositAmount != null and depositAmount != ''">
+                deposit_amount = #{depositAmount},
+            </if>
+            <if test="personalInvitationCode != null and personalInvitationCode != ''">
+                personal_invitation_code = #{personalInvitationCode},
+            </if>
+            <if test="parentUserAddress != null and parentUserAddress != ''">
+                parent_user_address = #{parentUserAddress},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="twitterAddress != null and twitterAddress != ''">
+                twitter_address = #{twitterAddress},
+            </if>
+            <if test="parentUserCode != null and parentUserCode != ''">
+                parent_user_code = #{parentUserCode},
+            </if>
+            <if test="twitterScreenName != null and twitterScreenName != ''">
+                twitter_screen_name = #{twitterScreenName},
+            </if>
+            <if test="ethcount != null and ethcount != ''">
+                ethcount = #{ethcount},
+            </if>
+            <if test="usdccount != null and usdccount != ''">
+                usdccount = #{usdccount},
+            </if>
+            <if test="triascount != null and triascount != ''">
+                triascount = #{triascount},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from registrationmoment where id = #{id}
+    </delete>
+
+</mapper>
+

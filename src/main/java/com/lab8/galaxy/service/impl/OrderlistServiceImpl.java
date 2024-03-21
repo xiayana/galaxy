@@ -2,11 +2,8 @@ package com.lab8.galaxy.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.lab8.galaxy.dao.FundAddressDao;
-import com.lab8.galaxy.dao.TransactionDao;
 import com.lab8.galaxy.entity.Orderlist;
 import com.lab8.galaxy.dao.OrderlistDao;
-import com.lab8.galaxy.entity.Transaction;
 import com.lab8.galaxy.service.OrderlistService;
 import com.lab8.galaxy.utils.CurrencyConverter;
 import com.lab8.galaxy.utils.FileUtil;
@@ -30,10 +27,7 @@ import java.util.List;
 public class OrderlistServiceImpl implements OrderlistService {
     @Resource
     private OrderlistDao orderlistDao;
-    @Resource
-    private TransactionDao transactionDao;
-    @Resource
-    private FundAddressDao fundAddressDao;
+
     private static final long SATOSHIS_PER_BITCOIN = 100_000_000L;
 
     /**
@@ -110,15 +104,7 @@ public class OrderlistServiceImpl implements OrderlistService {
         }
         PageHelper.startPage(orderlist.getPageNum(), orderlist.getPageSize());
         List<Orderlist> list = orderlistDao.queryAll(orderlist);
-        if(list.size() > 0 ){
-            Transaction transaction = new Transaction();
-            for (Orderlist orderlist1 : list){
-                transaction.setOrderid(orderlist1.getOrderid());
-                List<Transaction> tlist = transactionDao.queryAll(transaction);
-                orderlist1.setAmountFloat(convertToBillion(orderlist1.getAmount()));
-                orderlist1.setTlist(tlist);
-            }
-        }
+
         PageInfo<Orderlist> personPageInfo = new PageInfo<>(list);
         return personPageInfo;
     }
@@ -131,10 +117,9 @@ public class OrderlistServiceImpl implements OrderlistService {
 
     @Override
     public String selectFaddress(Integer pid) {
-        String used = "using";
-        String address = fundAddressDao.selectFaddress(pid,used);
-        return address;
+        return null;
     }
+
 
     @Override
     public Long totalPersonPurchased(Integer pid, String stage) {
@@ -156,16 +141,7 @@ public class OrderlistServiceImpl implements OrderlistService {
         }
         PageHelper.startPage(orderlist.getPageNum(), orderlist.getPageSize());
         List<Orderlist> list = orderlistDao.queryAllOa(orderlist);
-        if(list.size() > 0 ){
-            Transaction transaction = new Transaction();
-            for (Orderlist orderlist1 : list){
-                orderlist1.setShi1(CurrencyConverter.convertSatoshiToBitcoin(orderlist1.getAmount()));
-                transaction.setOrderid(orderlist1.getOrderid());
-                List<Transaction> tlist = transactionDao.queryAll(transaction);
-                orderlist1.setAmountFloat(convertToBillion(orderlist1.getAmount()));
-                orderlist1.setTlist(tlist);
-            }
-        }
+
         PageInfo<Orderlist> personPageInfo = new PageInfo<>(list);
         return personPageInfo;
     }

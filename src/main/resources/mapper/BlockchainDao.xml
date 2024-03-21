@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.BlockchainDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Blockchain" id="BlockchainMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="lastUpdated" column="last_updated" jdbcType="TIMESTAMP"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="chainId" column="chain_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BlockchainMap">
+        select
+          id, address, last_updated, label, chain_id
+        from blockchain
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BlockchainMap">
+        select
+          id, address, last_updated, label, chain_id
+        from blockchain
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="chainId != null">
+                and chain_id = #{chainId}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAlla" resultMap="BlockchainMap">
+        select
+        id, address, last_updated, label, chain_id
+        from blockchain
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="chainId != null">
+                and chain_id = #{chainId}
+            </if>
+        </where>
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryVerify" resultMap="BlockchainMap">
+        select
+        id, address, last_updated, label, chain_id
+        from blockchain
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="chainId != null">
+                and chain_id = #{chainId}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from blockchain
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="lastUpdated != null">
+                and last_updated = #{lastUpdated}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="chainId != null">
+                and chain_id = #{chainId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into blockchain(address, last_updated, label, chain_id)
+        values (#{address}, #{lastUpdated}, #{label}, #{chainId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into blockchain(address, last_updated, label, chain_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.address}, #{entity.lastUpdated}, #{entity.label}, #{entity.chainId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into blockchain(address, last_updated, label, chain_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.address}, #{entity.lastUpdated}, #{entity.label}, #{entity.chainId})
+        </foreach>
+        on duplicate key update
+        address = values(address),
+        last_updated = values(last_updated),
+        label = values(label),
+        chain_id = values(chain_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update blockchain
+        <set>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="lastUpdated != null">
+                last_updated = #{lastUpdated},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label},
+            </if>
+            <if test="chainId != null">
+                chain_id = #{chainId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from blockchain where id = #{id}
+    </delete>
+
+</mapper>
+

@@ -88,6 +88,134 @@
     <delete id="deleteById">
         delete from newtable where  id= #{id}
     </delete>
+    <update id="createRegistrationTable">
+        CREATE TABLE IF NOT EXISTS registration (
+                                                    id SERIAL PRIMARY KEY,
+                                                    user_address VARCHAR(255) NOT NULL UNIQUE,
+            is_active INT,
+            personal_score INT DEFAULT 0,
+            invited_ids INT[],
+            deposit_amount NUMERIC(20, 2),
+            personal_invitation_code VARCHAR(50) DEFAULT NULL,
+            parent_user_address VARCHAR(255) DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            twitter_address VARCHAR DEFAULT NULL,
+            parent_user_code VARCHAR DEFAULT NULL,
+            twitter_screen_name VARCHAR DEFAULT NULL,
+            ethcount NUMERIC(20, 10) DEFAULT 0,
+            usdccount NUMERIC(20, 10) DEFAULT 0,
+            triascount NUMERIC(20, 10) DEFAULT 0,
+            usdtcount NUMERIC(20, 10) DEFAULT 0
+
+            );
+
+        COMMENT ON COLUMN registration.user_address IS '用户地址';
+        COMMENT ON COLUMN registration.is_active IS '是否生效';
+        COMMENT ON COLUMN registration.personal_score IS '个人积分';
+        COMMENT ON COLUMN registration.invited_ids IS '邀请人（数组id）';
+        COMMENT ON COLUMN registration.deposit_amount IS '存款数额（USD）';
+        COMMENT ON COLUMN registration.personal_invitation_code IS '个人邀请码';
+        COMMENT ON COLUMN registration.parent_user_address IS '上级用户地址（邀请人）';
+        COMMENT ON COLUMN registration.created_at IS '创建时间';
+        COMMENT ON COLUMN registration.updated_at IS '更新时间';
+        COMMENT ON COLUMN registration.twitter_address IS 'Twitter用户id';
+        COMMENT ON COLUMN registration.parent_user_code IS '上级用户码';
+        COMMENT ON COLUMN registration.twitter_screen_name IS 'Twitter显示名称';
+    </update>
+    <update id="createRegistrationTable1">
+        CREATE TABLE IF NOT EXISTS registrationmoment (
+                                                    id SERIAL PRIMARY KEY,
+                                                    user_address VARCHAR(255) NOT NULL ,
+            is_active INT,
+            personal_score INT DEFAULT 0,
+            invited_ids INT[],
+            deposit_amount NUMERIC(10, 2),
+            personal_invitation_code VARCHAR(50) DEFAULT NULL,
+            parent_user_address VARCHAR(255) DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            twitter_address VARCHAR DEFAULT NULL,
+            parent_user_code VARCHAR DEFAULT NULL,
+            twitter_screen_name VARCHAR DEFAULT NULL,
+            ethcount NUMERIC(20, 10) DEFAULT 0,
+            usdccount NUMERIC(20, 10) DEFAULT 0,
+            triascount NUMERIC(20, 10) DEFAULT 0,
+            usdtcount NUMERIC(20, 10) DEFAULT 0
+
+            );
+
+        COMMENT ON COLUMN registration.user_address IS '用户地址';
+        COMMENT ON COLUMN registration.is_active IS '是否生效';
+        COMMENT ON COLUMN registration.personal_score IS '个人积分';
+        COMMENT ON COLUMN registration.invited_ids IS '邀请人（数组id）';
+        COMMENT ON COLUMN registration.deposit_amount IS '存款数额（USD）';
+        COMMENT ON COLUMN registration.personal_invitation_code IS '个人邀请码';
+        COMMENT ON COLUMN registration.parent_user_address IS '上级用户地址（邀请人）';
+        COMMENT ON COLUMN registration.created_at IS '创建时间';
+        COMMENT ON COLUMN registration.updated_at IS '更新时间';
+        COMMENT ON COLUMN registration.twitter_address IS 'Twitter用户id';
+        COMMENT ON COLUMN registration.parent_user_code IS '上级用户码';
+        COMMENT ON COLUMN registration.twitter_screen_name IS 'Twitter显示名称';
+    </update>
+
+    <update id="createOrdersTable2">
+        CREATE TABLE IF NOT EXISTS orders (
+                                              id SERIAL PRIMARY KEY,
+                                              initiator_address VARCHAR(255) NOT NULL,
+            receiver_address VARCHAR(255) NOT NULL,
+            type VARCHAR(50) NOT NULL,
+            amount DECIMAL(20, 10) NOT NULL,
+            status VARCHAR(50) NOT NULL,
+            insert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            txhash VARCHAR(50) NOT NULL,
+            );
+
+        COMMENT ON COLUMN orders.initiator_address IS '发起地址';
+    COMMENT ON COLUMN orders.receiver_address IS '接收地址';
+    COMMENT ON COLUMN orders.type IS '类型';
+    COMMENT ON COLUMN orders.amount IS '数额';
+    COMMENT ON COLUMN orders.status IS '状态';
+    COMMENT ON COLUMN orders.insert_time IS '插入时间';
+    </update>
+
+    <update id="createOrdersTable3">
+        CREATE TABLE IF NOT EXISTS usdcount (
+            id SERIAL PRIMARY KEY,
+            usdcount_number DECIMAL(20, 10) DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            );
+
+        COMMENT ON COLUMN usdcount.usdcount_number IS '总金额';
+    COMMENT ON COLUMN usdcount.created_at IS '保存时间';
+    COMMENT ON COLUMN usdcount.updated_at IS '变更时间';
+    </update>
+
+    <update id="createBlockchainTable">
+        CREATE TABLE IF NOT EXISTS blockchain (
+                                                  id SERIAL PRIMARY KEY,
+                                                  label VARCHAR(100) NOT NULL,
+            address VARCHAR(255) NOT NULL,
+            chain_id INT,
+            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+
+        COMMENT ON COLUMN blockchain.label IS '链名';
+    COMMENT ON COLUMN blockchain.address IS '地址';
+    COMMENT ON COLUMN blockchain.chain_id IS 'lianid';
+    COMMENT ON COLUMN blockchain.last_updated IS '最后更新时间';
+    </update>
+    <update id="createBlockchainTable2">
+        CREATE TABLE IF NOT EXISTS tokenTable (
+                                                  id SERIAL PRIMARY KEY,
+                                                  label VARCHAR(100) NOT NULL,
+            address VARCHAR(255) NOT NULL,
+            pid INT,
+            in_main INT,
+            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+    </update>
 
     <update id="dbtest">
         CREATE TABLE IF NOT EXISTS project_info (
@@ -133,7 +261,7 @@
             );
     </update>
 
-    <!-- 创建表的 SQL 语句 -->
+<!--    &lt;!&ndash; 创建表的 SQL 语句 &ndash;&gt;
     <update id="createProjectDetails">
         CREATE TABLE IF NOT EXISTS project_details (
                                                       id SERIAL PRIMARY KEY,
@@ -142,7 +270,7 @@
             tokenomics TEXT,
             pid INT
             );
-    </update>
+    </update>-->
     <update id="createWhtielist">
         CREATE TABLE IF NOT EXISTS whtielist (
                                                  id SERIAL PRIMARY KEY,

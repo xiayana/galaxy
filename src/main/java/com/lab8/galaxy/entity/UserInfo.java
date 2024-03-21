@@ -1,7 +1,9 @@
 package com.lab8.galaxy.entity;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * (UserInfo)实体类
  *

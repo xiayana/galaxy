@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab8.galaxy.dao.UsdcountDao">
+
+    <resultMap type="com.lab8.galaxy.entity.Usdcount" id="UsdcountMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="usdcountNumber" column="usdcount_number" jdbcType="DECIMAL"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UsdcountMap">
+        select
+          id, usdcount_number, created_at, updated_at
+        from usdcount
+        where id = #{id}
+    </select>
+    <select id="sumCount" resultType="java.math.BigDecimal">
+        SELECT SUM(usdcount_number) AS total_usdcount
+        FROM usdcount;
+    </select>
+    <select id="sumCountA" resultType="java.math.BigDecimal">
+        SELECT usdcount_number AS total_usdcount
+        FROM usdcount
+        ORDER BY created_at DESC LIMIT 1;
+    </select>
+
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UsdcountMap">
+        select
+          id, usdcount_number, created_at, updated_at
+        from usdcount
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="usdcountNumber != null">
+                and usdcount_number = #{usdcountNumber}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from usdcount
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="usdcountNumber != null">
+                and usdcount_number = #{usdcountNumber}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into usdcount(usdcount_number, created_at, updated_at)
+        values (#{usdcountNumber}, NOW(), NOW())
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into usdcount(usdcount_number, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.usdcountNumber}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into usdcount(usdcount_number, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.usdcountNumber}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+        on duplicate key update
+        usdcount_number = values(usdcount_number),
+        created_at = values(created_at),
+        updated_at = values(updated_at)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update usdcount
+        <set>
+            <if test="usdcountNumber != null">
+                usdcount_number = #{usdcountNumber},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from usdcount where id = #{id}
+    </delete>
+
+</mapper>
+
