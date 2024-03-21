@@ -108,10 +108,10 @@ public class TwitterController {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(consumerKey)
-                .setOAuthConsumerSecret(consumerSecret)
-        // 如果需要，添加代理设置
+                .setOAuthConsumerSecret(consumerSecret);
+ /*       // 如果需要，添加代理设置
                 .setHttpProxyHost("127.0.0.1")
-                .setHttpProxyPort(1662);
+                .setHttpProxyPort(1662);*/
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
 
@@ -301,10 +301,10 @@ public class TwitterController {
             ConfigurationBuilder cb = new ConfigurationBuilder();
             cb.setDebugEnabled(true)
                     .setOAuthConsumerKey("yfgVf4ftA2067hbfpxZhwgB2b")
-                    .setOAuthConsumerSecret("kVGtNbGLIjg0remVe9U8QJWLVfXjyLPbL1U56OzxINVwWN1fmO")
-                    // 如果需要，设置代理
+                    .setOAuthConsumerSecret("kVGtNbGLIjg0remVe9U8QJWLVfXjyLPbL1U56OzxINVwWN1fmO");
+/*                    // 如果需要，设置代理
                     .setHttpProxyHost("127.0.0.1")
-                    .setHttpProxyPort(1662);
+                    .setHttpProxyPort(1662);*/
 
             TwitterFactory tf = new TwitterFactory(cb.build());
             Twitter twitter = tf.getInstance();
