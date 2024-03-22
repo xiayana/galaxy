@@ -168,7 +168,7 @@
             amount DECIMAL(20, 10) NOT NULL,
             status VARCHAR(50) NOT NULL,
             insert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            txhash VARCHAR(50) NOT NULL,
+            txhash VARCHAR(100) NOT NULL,
             );
 
         COMMENT ON COLUMN orders.initiator_address IS '发起地址';

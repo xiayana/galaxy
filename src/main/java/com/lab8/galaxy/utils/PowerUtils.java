@@ -57,7 +57,7 @@ public class PowerUtils {
         days -= firstPeriod;
 
         // 计算第31天到第60天的分数
-        int secondPeriod = Math.min(days, 20);  // 如果超过30天，只计算30天
+        int secondPeriod = Math.min(days, 10);  // 如果超过30天，只计算30天
         score += secondPeriod * 100;
         days -= secondPeriod;
 

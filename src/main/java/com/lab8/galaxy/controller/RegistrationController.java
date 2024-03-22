@@ -147,12 +147,43 @@ public class RegistrationController {
         List<Registration> list = registrationService.queryByCode(registration);
 
         if(!list.isEmpty()){
+            Registration registration1 = new Registration();
+            registration1.setParentUserCode(list.get(0).getPersonalInvitationCode());
+            registration1.setIsActive(1);
+            List<Registration> listCode = registrationService.queryByCode(registration1);
+            for(Registration registration2 :list){
+                if(!listCode.isEmpty()){
+                    registration2.setListCode(listCode.size());
+                }else{
+                    registration2.setListCode(0);
+                }
+            }
+
            Integer ig =  registrationService.queryByRank(list.get(0).getId());
             list.get(0).setRank(ig+1);
             resultData.setData(list.get(0));
         }else{
             resultData.setCode(1);
             resultData.setMsg("未注册");
+        }
+        return resultData;
+    }
+    @GetMapping("numberPeople")
+    public ResultData numberPeople(String code) {
+        ResultData resultData = new ResultData();
+        if (code == null || code.isEmpty()) {
+            resultData.setCode(1);
+            resultData.setMsg("参数为空");
+            return  resultData;
+        }
+        Registration registration = new Registration();
+        registration.setParentUserCode(code);
+        registration.setIsActive(1);
+        List<Registration> listCode = registrationService.queryByCode(registration);
+        if(!listCode.isEmpty()){
+            resultData.setData(listCode.size());
+        }else{
+            resultData.setData(0);
         }
         return resultData;
     }

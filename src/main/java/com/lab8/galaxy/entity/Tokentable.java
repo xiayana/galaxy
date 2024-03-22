@@ -24,6 +24,7 @@ public class Tokentable implements Serializable {
     private Integer inMain;
     
     private Date lastUpdated;
+    private Integer tokendecimal;
 
 
 }

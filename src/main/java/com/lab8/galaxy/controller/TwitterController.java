@@ -25,9 +25,12 @@ import twitter4j.conf.ConfigurationBuilder;
 import javax.annotation.Resource;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Slf4j
@@ -309,9 +312,16 @@ public class TwitterController {
             TwitterFactory tf = new TwitterFactory(cb.build());
             Twitter twitter = tf.getInstance();
             // 判断是否提供了回调地址，并据此获取请求令牌
-            RequestToken requestToken;
+            RequestToken requestToken = null;
             if (callbackUrl != null && !callbackUrl.isEmpty()) {
-                requestToken = twitter.getOAuthRequestToken(callbackUrl);
+                try {
+                    String decodedURL = URLDecoder.decode(callbackUrl, StandardCharsets.UTF_8.toString());
+                    log.info("转译后地址，{}",decodedURL);
+                    requestToken = twitter.getOAuthRequestToken(decodedURL);
+                } catch (UnsupportedEncodingException e) {
+                    log.error("地址转译失败，{}",callbackUrl);
+                    e.printStackTrace();
+                }
             } else {
                 requestToken = twitter.getOAuthRequestToken();
             }

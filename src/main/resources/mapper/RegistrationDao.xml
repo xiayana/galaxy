@@ -41,7 +41,7 @@
             WHERE id = #{id}
         );
     </select>-->
-    <select id="queryByRank" resultType="java.lang.Integer">
+<!--    <select id="queryByRank" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM registration
         WHERE personal_score > (
@@ -54,7 +54,20 @@
         FROM registration
         WHERE id = #{id}
         ) AND id &lt; #{id});
+    </select>-->
+    <select id="queryByRank" resultType="java.lang.Integer">
+        SELECT (
+                   SELECT COUNT(*)
+                   FROM registration
+                   WHERE user_address != 'admin' and personal_score > (SELECT personal_score FROM registration WHERE id = #{id})
+               ) + (
+                   SELECT COUNT(*)
+                   FROM registration
+                   WHERE user_address != 'admin' and personal_score = (SELECT personal_score FROM registration WHERE id = #{id})
+                     AND id &lt; #{id}
+               ) AS combinedRank;
     </select>
+
 
     <select id="sumDepositAmount" resultType="java.math.BigDecimal">
         SELECT SUM(deposit_amount) FROM registration
@@ -180,7 +193,7 @@
                 AND twitter_screen_name = #{twitterScreenName}
             </if>
         </where>
-        ORDER BY personal_score DESC
+        ORDER BY personal_score DESC,id asc
     </select>
 
     <!--查询指定行数据-->
@@ -238,7 +251,7 @@
                 and triascount = #{triascount}
             </if>
         </where>
-        order by personal_score DESC, id ASC
+        order by personal_score DESC,id asc
     </select>
 
     <!--统计总行数-->

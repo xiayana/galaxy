@@ -66,6 +66,7 @@ public class Registration implements Serializable {
     private BigDecimal usdccount;
     private BigDecimal triascount;
     private BigDecimal usdtcount;
+    private Integer listCode;
 
 }
 
